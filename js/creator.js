@@ -21,6 +21,12 @@ console.log("Split url param = " + splitParams);
 
 var page = '<form id="main-form">';
 var toggleCount = 0;
+var checkboxCount = 0;
+var radioCount = 0;
+var timeCount = 0;
+var dateCount = 0;
+var colorCount = 0;
+var dropdownCount = 0;
 
 // loop through them and add them to the body appropriately
 for (var i = 0; i < splitParams.length; i++) {
@@ -52,13 +58,81 @@ for (var i = 0; i < splitParams.length; i++) {
 						pair[1] + 
 					'</div>';
 			break;
-		case "checkbox":
+		case "toggleswitch":
 			page += '<label class="item">' + 
 							pair[1] + // TODO: FIX this ----------------->
   						'<input type="checkbox" class="item-toggle" name="toggle-'+ toggleCount + '" checked>' + 
 					'</label>';
 			toggleCount++;
 			break;
+		case "checkboxitem":
+			page += '<label class="item">' + 
+          				pair[1] + 
+          				'<input type="checkbox" class="item-checkbox" name="checkbox-' + checkboxCount + '">' + 
+        			'</label>';
+        	checkboxCount++;
+        	break;
+
+       	// radio button
+        case "startradiogroup":
+        	// no purpose, just for show
+        	break;
+        case "radioitemtitle":
+        	page += '<label class="item">' + pair[1];
+          	break;
+        case "radioitemvalue":
+        	page += '<input type="radio" class="item-radio" name="radio-' + radioCount + '" value="' + pair[1] + '">' + 
+        		'</label>';
+        	break;
+        case "endradiogroup":
+        	radioCount++;
+        	break;
+
+
+		case "timepicker":
+			page += '<label class="item">' + 
+          				pair[1] +  
+          				'<input type="time" class="item-time" name="time-' + timeCount + '" value="18:35">' +  
+          			'</label>';
+          	timeCount++;
+          	break;
+		case "datepicker":
+			page += '<label class="item">' + 
+			        	pair[1] + 
+          				'<input type="date" class="item-date" name="date-' + dateCount + '" value="2015-02-12">' + 
+    			    '</label>';
+          	dateCount++;
+          	break;
+        case "colorpicker":
+        	page += '<label class="item">' + 
+          				pair[1] + 
+          				'<input type="text" class="item-color item-color-normal" name="color-' + colorCount + '" value="0xFFFFFF">' + 
+        			'</label>';
+        	colorCount++;
+        	break;
+        case "sunnycolorpicker":
+	        page += '<label class="item">' + 
+	          			pair[1] + 
+	         			'<input type="text" class="item-color item-color-sunny" name="color-' + colorCount + '" value="0xFFFFFF">' + 
+	        		'</label>';
+	        colorCount++;
+	        break;
+
+
+		case "startdropdown":
+			page += '<label class="item">' + 
+          				pair[1] + 
+          				'<select name="select-' + dropdownCount + '" dir="rtl" class="item-select">';
+            dropdownCount++;
+            break;
+        case "dropdownitem":
+        	page += '<option class="item-select-option">' + pair[1] + '</option>';
+          	break;
+        case "enddropdown":
+        	page += '</select>' + 
+				'</label>';
+        break;
+
 		case "footer":
 			page += '<div class="item-container-footer">' + 
 						pair[1] + 
