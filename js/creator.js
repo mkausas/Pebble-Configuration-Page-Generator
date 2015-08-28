@@ -23,10 +23,17 @@ var page = '<form id="main-form">';
 var toggleCount = 0;
 var checkboxCount = 0;
 var radioCount = 0;
+var inputFieldCount = 0;
+var sliderCount = 0;
 var timeCount = 0;
 var dateCount = 0;
 var colorCount = 0;
 var dropdownCount = 0;
+var tabCount = 0;
+
+var sliderValue = 50;
+var sliderMin = 0;
+var sliderMax = 100;
 
 // loop through them and add them to the body appropriately
 for (var i = 0; i < splitParams.length; i++) {
@@ -72,6 +79,42 @@ for (var i = 0; i < splitParams.length; i++) {
         			'</label>';
         	checkboxCount++;
         	break;
+        case "inputfield":
+        	page += '<label class="item">' + 
+          				'<div class="item-input-wrapper">' + 
+            				'<input type="text" class="item-input" name="input-' + inputFieldCount + '" placeholder="' + pair[1] + '">' + 
+          				'</div>' + 
+        			'</label>';
+        	break;
+        case "slider":
+        	page += '<label class="item">' + 
+          				'<input type="range" class="item-slider" name="slider-' + sliderCount + '" value="' + parseInt(pair[1]) + '">' + 
+    				    '<div class="item-input-wrapper item-slider-text">' + 
+            				'<input type="text" class="item-input" name="slider-' + sliderCount + '" value="' + parseInt(pair[1]) + '">' + 
+		   			    '</div>' + 
+		   			'</label>';
+   			sliderCount++;
+   			break;
+
+   		case "startdraggablelist":
+   			page += '<div class="item-draggable-list">';
+   			break;
+   		case "draggablelistitem":
+   			page += '<label class="item">' + pair[1] + '</label>';
+   			break;
+   		case 'enddraggablelist':
+   			page += '</div>';
+   			break;
+
+   		case "startdynamiclist":
+   			page += '<div class="item-dynamic-list">';
+   			break;
+   		case "dynamiclistitem":
+   			page += '<label class="item">' + pair[1] + '</label>';
+        	break;
+        case "enddynamiclist":
+        	page += '</div>';
+        	break
 
        	// radio button
         case "startradiogroup":
@@ -131,7 +174,22 @@ for (var i = 0; i < splitParams.length; i++) {
         case "enddropdown":
         	page += '</select>' + 
 				'</label>';
-        break;
+        	break;
+
+        case "starttabgroup":
+        	page += '<label class="item tab-buttons">';
+        	break;
+        case "tabitem":
+        	page += '<a name="tab-' + tabCount + '" class="tab-button">' + pair[1] + '</a>';
+        	break;
+        case "tabitemactive":
+        	page += '<a name="tab-' + tabCount + '" class="tab-button active">' + pair[1] + '</a>';
+        	break;
+        case "endtabgroup":
+        	page += '</label>';
+        	tabCount++;
+        	break;
+
 
 		case "footer":
 			page += '<div class="item-container-footer">' + 
@@ -144,8 +202,10 @@ for (var i = 0; i < splitParams.length; i++) {
 			break;
 		case "endgroup":
 				page +='</div>';
-			break;			
+			break;	
 
+		default:
+			page += pair[1] + " not recognized";
 	}
 }
 
